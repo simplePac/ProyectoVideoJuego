@@ -1,0 +1,14 @@
+body {
+  padding: 0;
+  text-align: center;
+}
+
+.body-background {
+  background-image: url(./images/portada.png);
+  background-size: cover;
+}
+.titulo {
+  font-size: 100px;
+  color: darkred;
+  text-shadow: 1em 1em 5em black;
+}
