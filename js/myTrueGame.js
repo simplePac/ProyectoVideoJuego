@@ -33,6 +33,7 @@ const myTrueGame = {
     canvas.setAttribute("width", this.canvasSize.w);
     canvas.setAttribute("height", this.canvasSize.h);
   },
+  
 
   setBackGround() {
     this.backGroundImg = new Image();
@@ -78,9 +79,15 @@ const myTrueGame = {
         this.newPj.pjPosition.y
       ))
     );
-    this.IntervalId = setTimeout(() => {
-      this.isCoolDown = false;
-    }, 800);
+    if (this.score < 5) {
+      this.IntervalId = setTimeout(() => {
+        this.isCoolDown = false;
+      }, 1000);
+    } else if (this.score >= 5) {
+      this.IntervalId = setTimeout(() => {
+        this.isCoolDown = false;
+      }, 800);
+    }
   },
 
   createNewEnemy() {
@@ -96,9 +103,19 @@ const myTrueGame = {
     );
 
     this.enemies.push(newEnemy);
-    this.IntervalId = setTimeout(() => {
-      this.createNewEnemy();
-    }, 1200);
+    if (this.score < 5) {
+      this.IntervalId = setTimeout(() => {
+        this.createNewEnemy();
+      }, 1500);
+    } else if (this.score >= 5) {
+      for (let i = 0; i < this.enemies.length; i++) {
+        e = this.enemies[i];
+      }
+      e.enemyLives = 2;
+      this.IntervalId = setTimeout(() => {
+        this.createNewEnemy();
+      }, 1500);
+    }
   },
 
   lose() {
@@ -138,6 +155,9 @@ const myTrueGame = {
       this.enemies.forEach((enemy) => {
         let collision = false;
         if (!collision) {
+          if (enemy.enemyPos.x === -80) {
+            this.gameOver = true;
+          }
           if (this.newPj.pjPosition.x === enemy.enemyPos.x) {
             if (
               (this.newPj.pjPosition.y >= enemy.enemyPos.y &&
@@ -168,55 +188,15 @@ const myTrueGame = {
           s.y <= e.enemyPos.y + e.enemySize.h
         ) {
           this.shots.splice(this.shots[j], 1); // quita las balas
-          this.enemies.splice(i, 1); // quita los enemigos muertos
-          this.score = this.score + 1;
+          e.enemyLives = e.enemyLives - 1;
+          if (e.enemyLives === 0) {
+            this.enemies.splice(i, 1); // quita los enemigos muertos
+            this.score = this.score + 1;
+          }
           // document.querySelector(".barra").innerHTML = e.id + " " + "APLASTADA"; //METER AQUI EL SCORE
         }
       }
     }
-
-    // mapeamos los disparos a un nuevo array para tener los datos mas limpios
-    // const shotsPositions = this.shots.map((s) => ({
-    //   x: s.x,
-    //   y: s.y,
-    //   id: s.id,
-    // }));
-
-    // if (shotsPositions.length) {
-    //   // filtramos todos los enemigos, iterando cada enemigo
-    //   this.enemies = this.enemies.filter((enemy) => {
-    //     // iniciamos una variable para saber si tienen un disparo cercano
-    //     let closeShot = null;
-    //     // buscamos ese disparo en el array de disparos con .find, iterando cada disparo
-    //     closeShot = shotsPositions.find((shot) => {
-    //       // comprobamos si está cerca haciendo cálculos
-    //       if (
-    //         Math.abs(shot.x - enemy.enemyPos.x) <= 20 &&
-    //         Math.abs(shot.y - (enemy.enemyPos.y + enemy.enemySize.h)) <= 110 &&
-    //         Math.abs(shot.y - (enemy.enemyPos.y + enemy.enemySize.h)) > 5
-    //       ) {
-    //         // si existe el disparo, sumamos 1 al score y lo devolvemos
-    //         this.score = this.score + 1;
-    //         // devolvemos el disparo para que se asigne a closeShot
-    //         this.successedShots.push(shot);
-    //         return shot;
-    //       }
-    //     });
-
-    //     // fuera del find
-    //     // return del filter
-    //     // si no existe disparo en este enemigo (linea 150), está vivo, entonces no lo quitamos del array
-    //     if (!closeShot) return enemy;
-    //   });
-    // }
-    // },
-
-    //removeShots() {
-    this.shots = this.shots.filter((shot) => {
-      const success = this.successedShots.find((s) => s.id === shot.id);
-
-      if (!success) return shot;
-    });
   },
 
   setListeners() {

@@ -7,6 +7,7 @@ class Enemy {
       (this.enemyRight = true),
       (this.enemyImg = new Image()),
       (this.enemyImg.src = "./images/enemyLeft.png");
+    this.enemyLives = 1;
   }
 
   drawEnemy() {
