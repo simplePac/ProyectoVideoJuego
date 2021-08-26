@@ -42,6 +42,13 @@ const myTrueGame = {
     this.backGroundImgHeight = this.canvasSize.h;
   },
 
+  setAudio() {
+    if(this.score === 10){
+      document.getElementById('notPass').play()
+      document.getElementById('notPass').volume = 0.3
+    }
+  },
+
   drawBackground() {
     this.ctx.drawImage(
       this.backGroundImg,
@@ -222,6 +229,7 @@ const myTrueGame = {
     if (!this.gameOver) {
       this.clearCanvas();
       this.drawAll();
+      this.setAudio()
       this.newPj.moveNewPj();
       this.checkPlayerCollision();
       this.checkProjectileCollision();
