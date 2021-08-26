@@ -7,8 +7,36 @@ body {
   background-image: url(./images/portada.png);
   background-size: cover;
 }
+
+.game-intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .titulo {
+  margin-top: 20px;
+  background: linear-gradient(to bottom right, darkblue, black);
   font-size: 100px;
-  color: darkred;
+  width: 600px;
+  color: rgb(92, 117, 105);
   text-shadow: 1em 1em 5em black;
+  border: 4px black solid;
+  box-shadow: 10px 5px 3px black;
+  border-radius: 25px;
+}
+
+.controls{
+  font-size: 21px;
+  color: wheat;
+}
+
+#start-button {
+  font-family: fantasy;
+  font-size: 30px;
+  width: 220px;
+  height: 75px;
+  color: brown;
+  background-color: darkblue;
 }

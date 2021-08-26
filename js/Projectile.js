@@ -5,6 +5,7 @@ class Projectile {
     this.y = y;
     this.spellImg = new Image();
     this.spellImg.src = "./images/spell.png";
+    this.id = Math.random(1 * 100) +1;
 
     this.shotVelocity = 4;
   }
