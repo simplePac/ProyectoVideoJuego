@@ -33,7 +33,6 @@ const myTrueGame = {
     canvas.setAttribute("width", this.canvasSize.w);
     canvas.setAttribute("height", this.canvasSize.h);
   },
-  
 
   setBackGround() {
     this.backGroundImg = new Image();
@@ -43,9 +42,9 @@ const myTrueGame = {
   },
 
   setAudio() {
-    if(this.score === 10){
-      document.getElementById('notPass').play()
-      document.getElementById('notPass').volume = 0.3
+    if (this.score === 10) {
+      document.getElementById("notPass").play();
+      document.getElementById("notPass").volume = 0.3;
     }
   },
 
@@ -71,8 +70,13 @@ const myTrueGame = {
     if (this.shots.length !== 0) {
       this.shots.forEach((shot) => {
         // console.log(shot);
+        if(this.score < 10){
         shot.shot();
         shot.drawProjectile();
+        } else if (this.score >= 10){
+          shot.shot();
+          shot.drawProjectile2()
+        }
       });
     }
   },
@@ -86,14 +90,18 @@ const myTrueGame = {
         this.newPj.pjPosition.y
       ))
     );
-    if (this.score < 5) {
+    if (this.score < 10) {
       this.IntervalId = setTimeout(() => {
         this.isCoolDown = false;
       }, 1000);
-    } else if (this.score >= 5) {
+    } else if (this.score >= 10 && this.score < 20) {
       this.IntervalId = setTimeout(() => {
         this.isCoolDown = false;
       }, 800);
+    } else if (this.score >= 20) {
+      this.IntervalId = setTimeout(() => {
+        this.isCoolDown = false;
+      }, 600);
     }
   },
 
@@ -110,11 +118,11 @@ const myTrueGame = {
     );
 
     this.enemies.push(newEnemy);
-    if (this.score < 5) {
+    if (this.score < 10) {
       this.IntervalId = setTimeout(() => {
         this.createNewEnemy();
       }, 1500);
-    } else if (this.score >= 5) {
+    } else if (this.score >= 10 && this.score < 20) {
       for (let i = 0; i < this.enemies.length; i++) {
         e = this.enemies[i];
       }
@@ -122,6 +130,14 @@ const myTrueGame = {
       this.IntervalId = setTimeout(() => {
         this.createNewEnemy();
       }, 1500);
+    } else if (this.score >= 20) {
+      for (let i = 0; i < this.enemies.length; i++) {
+        e = this.enemies[i];
+      }
+      e.enemyLives = 4;
+      this.IntervalId = setTimeout(() => {
+        this.createNewEnemy();
+      }, 500);
     }
   },
 
@@ -229,7 +245,7 @@ const myTrueGame = {
     if (!this.gameOver) {
       this.clearCanvas();
       this.drawAll();
-      this.setAudio()
+      this.setAudio();
       this.newPj.moveNewPj();
       this.checkPlayerCollision();
       this.checkProjectileCollision();
