@@ -22,6 +22,9 @@ const myTrueGame = {
 
   setContext() {
     this.ctx = canvas.getContext("2d");
+    document.getElementById("music").play();
+    document.getElementById("music").volume = 0.3;
+    document.getElementById("music2").pause();
   },
 
   setCanvasSize(canvas) {
@@ -109,6 +112,9 @@ const myTrueGame = {
         this.ctx.font = "70px Verdana";
         this.ctx.fillStyle = "white";
         this.ctx.fillText("DEFEAT", 250, 350);
+        document.getElementById("music").pause();
+        document.getElementById("music2").play();
+        document.getElementById("music").volume = 0.4;
       }, 700);
     }
   },
@@ -233,7 +239,6 @@ const myTrueGame = {
   },
 
   updateCanvas() {
-    console.log(this.successedShots);
     if (!this.gameOver) {
       this.clearCanvas();
       this.drawAll();
